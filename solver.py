@@ -1,28 +1,37 @@
 #!/usr/bin/python
 
 import itertools
-import sys
+#import sys
 
 rows = []
 columns = []
 blocks = []
 
+# rows is a list of lists. The sublists hold the indices of each row.
+# columns is the same, but for colums.
 for i in range(9) :
     rows.append(range(i*9, (i*9)+9, 1))
     columns.append(range(i, 81, 9))
 
+# blocks does the same as rows and columns, but it's build is much more complex.
 for i in 0, 3, 6,  27, 30, 33,  54, 57, 60 :
     blocks.append( [] )
     for j in 0, 1, 2,  9, 10, 11,  18, 19, 20 :
         blocks[-1].append(i+j)
 
 def gen_board() :
+    """generate a full board, all posibilities open"""
     board = []
     for x in range(81) :
         board.append([1,2,3,4,5,6,7,8,9])
     return board
 
 def which_rcb(idx) :
+    """takes an index into the board (a number between 0 and 80 inclusive)
+    Returns a tuple containing the index of which board, column and block
+    that contain that index"""
+    if idx < 0 or idx > 80 :
+        return None
     row = idx // 9
     column = idx % 9
     block = ( 3 * ( row // 3 )) + ( column // 3 )
@@ -30,6 +39,10 @@ def which_rcb(idx) :
     return (row, column, block)
 
 def index_constrains(idx) :
+    """Given an index into the board, return a sorted and unique'ed list of 
+    all indexes in its row, column and block"""
+    if idx < 0 or idx > 80 :
+        return None
     row, column, block = which_rcb(idx)
     spaces = set()
     for tidx in rows[row] :
@@ -41,6 +54,8 @@ def index_constrains(idx) :
     return sorted(list(spaces))
 
 def print_indexes() :
+    """print the index position of all indexes in the board.
+    Useful mostly for debugging"""
     counter = 0
     for row in rows :
         print "%2d %2d %2d | %2d %2d %2d | %2d %2d %2d" % ( row[0], row[1], row[2], 
@@ -51,7 +66,13 @@ def print_indexes() :
         counter += 1
 
 def constrain_spaces(board, spaces, idx) :
+    """takes a board, a list of spaces tied to an index, and the index
+    eliminate the value at idx from all indexes in spaces"""
     #print 'cs1 spaces', spaces
+    if idx < 0 or idx > 80 :
+        return None
+    if len(board[idx]) != 1 :
+        return None
     for tidx in spaces :
         if tidx == idx :
             continue
@@ -66,10 +87,14 @@ def constrain_spaces(board, spaces, idx) :
         #print '---', board[tidx]
 
 def constrain(board, idx) :
+    """wrapper function for constrain_spaces"""
+    if idx < 0 or idx > 80 :
+        return None
     spaces = index_constrains(idx)
     constrain_spaces(board, spaces, idx)
 
 def initial_constraints(constraint_str, board) :
+    """apply the initial constraints to the board."""
     for idx, c in enumerate(constraint_str) :
         if c == '_' :
             continue
@@ -86,32 +111,41 @@ def apply_constraints(board) :
         #print 'ac idx %d board[idx] %s' % (idx, repr(board[idx]))
         #compare_two_boards(b1, b2)
 
-def test9(spaces, board) :
+def test9(subsection, board) :
+    """test that a subsection of 9 indexes contains 9 unique numbers between 1
+    and 9."""
     x = set()
-    for s in spaces :
-        x.add(board[s][0])
+    for s in subsection :
+        if 1 <= s <= 9 :
+            x.add(board[s][0])
     if len(x) == 9 :
         return True
     return False
 
 def validate_solution(board) :
+    """validate that a board has a proper solution.
+    Work to be done: test9 validates unique 9.  Need a for i in board : check i
+    holds number unique to it 'spaces'."""
     x = sum(map(len, board))
     if x != 81 :
         print 'x is', x
         return False
-    for spaces in itertools.chain(rows, columns, blocks) :
-        x = test9(spaces, board)
+    for subsection in itertools.chain(rows, columns, blocks) :
+        x = test9(subsection, board)
         if x is False :
-            #print spaces
+            #print subsection
             return False
     return True
 
 def compare_two_boards(boardstr1, boardstr2) :
+    """take two boards (as output by board_printer(board, printme=False)), and 
+    print both of them side by side."""
     for x in itertools.izip(boardstr1.splitlines(), boardstr2.splitlines()) :
         print "        ".join(x)
     print
 
 def board_printer(board, printme=True) :
+    """print out a board."""
     result = ''
     hcounter = 1
     vcounter = 1
