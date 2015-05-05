@@ -16,8 +16,8 @@ Use your skills to produce a sudoku solver.  Rules:
 
 6. Output must be the solved puzzle presented as an 81 character string.  The 81 characters begin in the top left of the puzzle.  The first 9 characters are the top row of the puzzle, left to right.  The next 9 are the second row, etc.  Full example:
 ```
-$ python ./sudoku1.py 048006102000300000009005006000001089000000000000900001006002900084100000002048003
-348796152615324897279815436527461389891253674463987521136572948784139265952648713
+$ python ./sudoku1.py 020000000000600003074080000000003002080040010600500000000010780500009000000000040
+126437958895621473374985126457193862983246517612578394269314785548769231731852649
 ```
 
 7. Please name the file uniquely (sudoku1.py is a poor choice).
