@@ -6,17 +6,19 @@ else
 	echo "USAGE: $0 <directory of sudoku solvers>"
 fi
 
-rootdir=$(dirname $0)
+ROOTDIR=$(dirname $0)
 
-if [ "$rootdir" == "." ]; then
-	rootdir=$(pwd)
+if [ "$ROOTDIR" == "." ]; then
+	ROOTDIR=$(pwd)
 fi
+
+PUZZLES=${ROOTDIR}/puzzles.txt
 
 cd $DIR
 
 for f in ./*.py ; do
 	echo -n "starting solver $f"
-	cat ${rootdir}/puzzles.txt | while read pname puzzle solution; do
+	cat $PUZZLES | while read pname puzzle solution; do
 		echo -n " $pname"
 		result=$(timeout 60 gtime --output=${f}@${pname}@time1 python ${f} ${puzzle} 2>&1)
 		if [ "$result" != "$solution" ]; then
@@ -34,4 +36,4 @@ for f in ./*.py ; do
 	echo " done"
 done
 
-${rootdir}/compare.py
+${ROOTDIR}/compare.py
