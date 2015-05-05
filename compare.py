@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import decimal
 # import itertools
 import operator
@@ -27,8 +28,8 @@ def best_scores(solver, data):
 
 
 def score_results(baseline, results):
-    print(repr(baseline))
-    print(repr(results))
+    # print(repr(baseline))
+    # print(repr(results))
     tally = decimal.Decimal(0)
     for b, r in zip(baseline, results):
         tally += ((b - r) * 10)
@@ -44,7 +45,10 @@ def main():
             # ${f}.${pname}.time2  $f is solver, $pname is puzzle
             words = f.split('@')
             etime = get_etime(f)
-            data.setdefault(words[0], {}).setdefault(words[1], []).append(etime)
+            data.setdefault(words[0],
+                            {}).setdefault(words[1],
+                                           []).append(etime)
+    # print(repr(data))
     baseline = best_scores(base_solver, data)
     # print(repr(baseline))
     finals = {}
@@ -53,7 +57,10 @@ def main():
             continue
         results = best_scores(solver, data)
         finals[solver] = score_results(baseline, results)
-    print(sorted(finals.items(), key=operator.itemgetter(1)))
+    # print(repr(finals))
+    for solver, score in reversed(sorted(finals.items(),
+                                         key=operator.itemgetter(1))):
+        print("Solver %s has a score of %0.2f" % (solver, score))
 
 
 if __name__ == '__main__':
