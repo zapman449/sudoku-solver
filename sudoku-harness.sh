@@ -22,10 +22,11 @@ for f in ./*.py ; do
 		echo -n " $pname"
 		result=$(timeout 60 gtime --output=${f}@${pname}@time1 python ${f} ${puzzle} 2>&1)
 		if [ "$result" != "$solution" ]; then
+			echo
 			echo "file $f failed to solve puzzle $puzzle"
 			echo "wrong: -- $result --"
 			echo "right: -- $solution --"
-			continue
+			break
 		fi
 		result=$(timeout 60 gtime --output=${f}@${pname}@time2 python ${f} ${puzzle} 2>&1)
 		result=$(timeout 60 gtime --output=${f}@${pname}@time3 python ${f} ${puzzle} 2>&1)
