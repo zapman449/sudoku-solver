@@ -28,9 +28,23 @@ Use your skills to produce a sudoku solver.  Rules:
 
 10. The winner will need to discuss their solution and how it works in detail.  Other people should be willing to give a 'lightening talk' on their solution.
 
+11. Cheating will cause you to be disqualified from winning, though may force you to give a ligtening talk about WHY your cheat was interesting.  Examples of cheating: searching for a source puzzles.txt file and finding the solution there.
+
+12. Must be present at Python Atlanta August meetup to win.
+
 Other details:
 
 The script 'sudoku-harness.sh' and 'compare.py' will compare the results of the tests.  An assortment of puzzles will
 be attempted with your solution.  Absolute timeout is 60 seconds.  If you take that long, you've blown it.  Time will
 measured via gnu time's 'elapsed' time.  Each puzzle will be attempted 3 times, and the best of those three times will
-be used for scoring.  Note: the puzzles in puzzles.txt are NOT the puzzles you'll be judged on, but they are representative.
+be used for scoring.  Note: the puzzles in puzzles.txt are NOT the puzzles you'll be judged on, but they are representative.  Usage example:
+
+```
+$ ./sudoku-harness.sh ./p2
+Usind directory p2 for puzzles
+starting solver ./sudoku1.py puzzle5 puzzle6 done
+starting solver ./sudoku2.py puzzle5 puzzle6 done
+starting solver ./sudoku3.py puzzle5 puzzle6 done
+Solver sudoku3.py has a score of 49.00
+Solver sudoku2.py has a score of 41.40
+```
