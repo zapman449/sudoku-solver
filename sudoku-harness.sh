@@ -1,9 +1,17 @@
 #!/bin/bash
 
-if [ -d $1 ]; then
-	DIR=$1
-else
+USAGE(){
 	echo "USAGE: $0 <directory of sudoku solvers>"
+	exit
+}
+
+if [ -z $1 ]; then
+	USAGE
+elif [ -d $1 ]; then
+	DIR=$1
+	echo "Usind directory $DIR for puzzles"
+else
+	USAGE
 fi
 
 ROOTDIR=$(dirname $0)
