@@ -29,8 +29,8 @@ def best_scores(solver, data):
 
 def score_results(baseline, results):
     # handle failed puzzle case with a minimal score
-    if len(results) != 3:
-        return decimal.Decimal(-99)
+    # if len(results) != 3:
+    #     return decimal.Decimal(-99)
     tally = decimal.Decimal(0)
     for b, r in zip(baseline, results):
         tally += ((b - r) * 10)
@@ -56,7 +56,9 @@ def main():
     for solver in data:
         if solver == base_solver:
             continue
+        # print("data subset is", repr(data[solver]))
         results = best_scores(solver, data)
+        # print("scoring. Baseline is", repr(baseline), "results are", repr(results))
         finals[solver] = score_results(baseline, results)
     # print(repr(finals))
     for solver, score in reversed(sorted(finals.items(),
