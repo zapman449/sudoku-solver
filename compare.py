@@ -52,19 +52,26 @@ def main():
     # print(repr(data))
     baseline = best_scores(base_solver, data)
     # print(repr(baseline))
+    # print("baseline times:", repr(baseline))
     finals = {}
     for solver in data:
         if solver == base_solver:
             continue
         # print("data subset is", repr(data[solver]))
         results = best_scores(solver, data)
+        # print(solver, "times:", results)
         # print("scoring. Baseline is", repr(baseline), "results are", repr(results))
         finals[solver] = score_results(baseline, results)
     # print(repr(finals))
+    print()
+    first = True
     for solver, score in reversed(sorted(finals.items(),
                                          key=operator.itemgetter(1))):
+        if first:
+            first = False
+            winner = (solver, score)
         print("Solver %s has a score of %0.2f" % (solver, score))
-
+    print("\n    WINNER IS %s with a score of %0.2f" % (winner[0], winner[1]))
 
 if __name__ == '__main__':
     main()

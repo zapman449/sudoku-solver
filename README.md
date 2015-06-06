@@ -22,7 +22,7 @@ Use your skills to produce a sudoku solver.  Rules:
 
 7. Please name the file uniquely (sudoku1.py is a poor choice).
 
-8. Contest will either run on my multi-core macbook, or a multi-core linux VM.  Default python is 2.7.8.  Python3 is available on request.  
+8. Contest will either run on my multi-core macbook, or a multi-core linux VM.  Default python is 2.7.8.  Python3.4 is available on request.  
 
 9. Submit your solution as a pull request into this github repo: https://github.com/zapman449/sudoku-solver.git   .  Please place your code either in the p2 directory (for python 2) or the p3 directory (for python 3).
 
@@ -34,10 +34,13 @@ Use your skills to produce a sudoku solver.  Rules:
 
 Other details:
 
-The script 'sudoku-harness.sh' and 'compare.py' will compare the results of the tests.  An assortment of puzzles will
-be attempted with your solution.  Absolute timeout is 60 seconds.  If you take that long, you've blown it.  Time will
-measured via gnu time's 'elapsed' time.  Each puzzle will be attempted 3 times, and the best of those three times will
-be used for scoring.  Note: the puzzles in puzzles.txt are NOT the puzzles you'll be judged on, but they are representative.  Usage example:
+The script 'sudoku-harness.sh' (and 'compare.py') will run each solver, and
+compare the results of the tests.  An assortment of puzzles will be attempted
+with your solution.  Absolute timeout is 60 seconds.  If you take that long,
+you've blown it.  Time will measured via gnu time's 'elapsed' time.  Each
+puzzle will be attempted 3 times, and the best of those three times will be
+used for scoring.  Note: the puzzles in puzzles.txt are NOT the puzzles you'll
+be judged on, but they are representative.  Usage example:
 
 ```
 $ ./sudoku-harness.sh ./p2
@@ -48,3 +51,5 @@ starting solver ./sudoku3.py puzzle5 puzzle6 done
 Solver sudoku3.py has a score of 49.00
 Solver sudoku2.py has a score of 41.40
 ```
+
+Requirements: gnu-time.  sudoku-harness looks in $PATH for either time or gtime, and tries to ensure it's gnu-time.
