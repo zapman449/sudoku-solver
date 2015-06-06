@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+Brute force sudoku solver.  Found Online.
+Baseline of sudoku challenge
+"""
+
 from __future__ import print_function
 import sys
 

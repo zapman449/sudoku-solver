@@ -1,5 +1,14 @@
 #!/usr/bin/python
 
+"""
+Multiprocessing variant of sudoku1.py.  Launches one process per option on the
+first '0' found.
+
+Lots of potential optimizations available from here.
+
+by Jason Price
+"""
+
 from __future__ import print_function
 import multiprocessing
 import random
