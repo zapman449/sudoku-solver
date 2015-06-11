@@ -2,6 +2,8 @@ sudoku-solver
 =============
 The great Sudoku solver challenge for Python Atlanta!
 
+[Link to my PyAtl presentation](https://docs.google.com/presentation/d/1B2R5v42bCmOPWJlPBSNTdnhJCNaUu_8duEEzYEQP6kI/edit?usp=sharing)
+
 Use your skills to produce a sudoku solver.  Rules:
 
 1. Pure python solution
