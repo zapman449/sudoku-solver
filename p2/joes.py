@@ -4,7 +4,7 @@
     Biggest problem with this algorithm - reasonably hard puzzles are solved under 200ms on my local MBP.
     Not sure how testing script would measure it with just one iteration, as python startup time is significantly
     higher than actual solving time. For easier puzzles, it takes less than 1ms to solve and time won't catch
-    a difference.
+    the difference.
 
     Resources:
         https://en.wikipedia.org/wiki/Exact_cover
