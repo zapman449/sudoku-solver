@@ -1,9 +1,10 @@
 """
     Sudoku solver using python-optimized version of dancing links algorithm. Needs Python 2.7+ for set comprehensions.
 
-    Biggest problem with this algorithm - 500 iterations for hard sudoku puzzles take ~1.6s (or 0.003s per puzzle).
+    Biggest problem with this algorithm - reasonably hard puzzles are solved under 200ms on my local MBP.
     Not sure how testing script would measure it with just one iteration, as python startup time is significantly
-    higher than actual solving time.
+    higher than actual solving time. For easier puzzles, it takes less than 1ms to solve and time won't catch
+    a difference.
 
     Resources:
         https://en.wikipedia.org/wiki/Exact_cover
@@ -365,14 +366,15 @@ def test():
     #raw = '140035200725640003693218700036894000814570002000062000467000000381450006950000071'
     #raw = '002508700000000000701000506400020009000907000300010005108000603000000000007204800'
     #raw = '100030009020640080003200740200000000014000000000062800007000300080450020000000001'
-    raw = '020000000000600003074080000000003002080040010000500000000010780500009000000000040'
+    #raw = '020000000000600003074080000000003002080040010000500000000010780500009000000000040'
     #raw = '.....6....59.....82....8....45........3........6..3.54...325..6..................'
+    raw = '100400009056009000000010060060000800500004090900005010070000200600001050000300000'
     solve(raw)
 
 
 def bench():
     import timeit
-    count = 500
+    count = 50
     val = timeit.timeit('test()', setup='from __main__ import test', number=count)
     print val, val / count
 
