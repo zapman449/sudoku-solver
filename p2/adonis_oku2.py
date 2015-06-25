@@ -1,14 +1,19 @@
 __author__ = 'abovell'
 
-""""Single threaded class based solution to the sudoku problem. Easier to understand"""
+""""Single threaded class based solution to the sudoku problem.
+
+Easy to understand brute force algorithm with backtracking."""
 
 import random
 import sys
 
 class InvalidStateException(Exception):
+    """Short circuit mechanism when results are invalid"""
     pass
 
 class Square(object):
+    """Sudoku piece, aware of its neighbors"""
+
     OPTIONS = set(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
 
     def __init__(self, index, value):
@@ -27,7 +32,7 @@ class Square(object):
             self.value = self.options.pop()
             return True
         if n == 0:
-            raise InvalidStateException('\t({0!s})'.format(self.index))
+            raise InvalidStateException()
         return False
 
     def __repr__(self):
@@ -35,9 +40,14 @@ class Square(object):
 
     def update_options(self):
         used_options = set()
+        unused_neighbors = set()
         for square in self.neighbors:
-            used_options.add(square.value)
+            if square.value == '0':
+                unused_neighbors.add(square)
+            else:
+                used_options.add(square.value)
         self.options = self.options - used_options
+        self.neighbors = unused_neighbors
 
     def learn_neighbors(self, parent):
         for square in parent.row(self.row):
@@ -49,9 +59,9 @@ class Square(object):
         self.neighbors = self.neighbors - set([self])
 
 class Puzzle(object):
-    STATES = []
 
     def __init__(self, sequence):
+        self.states = []
         self.build_puzzle(sequence)
 
     def build_puzzle(self, sequence):
@@ -88,17 +98,16 @@ class Puzzle(object):
         self.unsolved = unsolved
 
     def save_state_and_guess(self):
-        # TODO: save more state parameters
         # TODO: spawn separate threads instead of guessing
+        # TODO: limit to CPU count threads
         state = str(self)
         square = self.unsolved.pop()
-        index = square.index
         square.value = random.sample(square.options, 1)[0]
-        others = square.options - set(square.value)
-        Puzzle.STATES.append((state, index, others))
+        square.options.remove(square.value)
+        self.states.append((state, square.index, square.options))
 
     def restore_state_and_continue(self):
-        state, index, others = Puzzle.STATES.pop()
+        state, index, others = self.states.pop()
         self.build_puzzle(state)
         self.squares[index].options = others
 
@@ -124,8 +133,7 @@ class Puzzle(object):
         return string
 
     def __str__(self):
-        string = [str(square) for square in self.squares]
-        return ''.join(string)
+        return ''.join([str(square) for square in self.squares])
 
 def main():
     puzzle = Puzzle(sys.argv[1])
@@ -136,10 +144,9 @@ def main():
         try:
             if puzzle.progress() == 0:
                 puzzle.save_state_and_guess()
-        except InvalidStateException as e:
+        except InvalidStateException:
             puzzle.restore_state_and_continue()
 
-# if __name__ == '__main__':
-
-main()
+if __name__ == '__main__':
+    main()
 
