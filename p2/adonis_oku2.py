@@ -2,7 +2,10 @@ __author__ = 'abovell'
 
 """"Single threaded class based solution to the sudoku problem.
 
-Easy to understand brute force algorithm with backtracking."""
+Easy to understand brute force algorithm with backtracking.
+Adonis Bovell
+adonis.ais@gmail.com
+"""
 
 import random
 import sys
