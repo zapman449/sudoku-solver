@@ -5,6 +5,7 @@
 if [ $# -ge 1 -a -f "$1" ]; then
 	input="$1"
 else
+	# read from stdin
 	input="-"
 fi
 
