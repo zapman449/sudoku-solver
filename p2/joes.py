@@ -13,9 +13,6 @@
     Author: https://github.com/mrjoes/
 """
 
-NINE = range(9)
-NINExNINE = range(9*9)
-
 
 def dump(results):
     return ''.join([str(n + 1) for n in results])
@@ -337,7 +334,10 @@ def search(columns, rows, results):
     # process
     for r in list(columns[c]):
         # Store value in the result
-        results[r // 9] = r % 9
+        idx = r // 9
+
+        t = results[idx]
+        results[idx] = r % 9
 
         # Cover the column, removing intersecting rows
         cols = cover(columns, rows, r)
@@ -348,8 +348,10 @@ def search(columns, rows, results):
         if res:
             return res
 
-        # Didn't find anything, uncover and try other row
+        # Didn't find anything, uncover and try another row
         uncover(columns, rows, r, cols)
+
+        results[idx] = t
 
 
 def solve(raw):
@@ -369,7 +371,7 @@ def test():
     #raw = '020000000000600003074080000000003002080040010000500000000010780500009000000000040'
     #raw = '.....6....59.....82....8....45........3........6..3.54...325..6..................'
     raw = '100400009056009000000010060060000800500004090900005010070000200600001050000300000'
-    solve(raw)
+    print solve(raw)
 
 
 def bench():
