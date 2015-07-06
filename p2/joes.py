@@ -323,24 +323,18 @@ def apply_mask(raw, columns, rows):
 
 
 def search(columns, rows, results):
-    # If there are no columns left - we found solution
-    if not columns:
-        return results
-
-    # Find column with lowest number of links (simple heuristic to process cells with lowest number of possible values)
+    # Find column with lowest number of links
     c = min(columns, key=lambda c: len(columns[c]))
 
-    # Traverse rows for a given column. Need to make a copy, because we're going to change it during cover/uncover
-    # process
-    for r in list(columns[c]):
+    for r in columns[c]:
         # Store value in the result
-        idx = r // 9
-
-        t = results[idx]
-        results[idx] = r % 9
+        results[r // 9] = r % 9
 
         # Cover the column, removing intersecting rows
         cols = cover(columns, rows, r)
+
+        if not columns:
+            return results
 
         # Search for solution in reduced columns
         res = search(columns, rows, results)
@@ -350,8 +344,6 @@ def search(columns, rows, results):
 
         # Didn't find anything, uncover and try another row
         uncover(columns, rows, r, cols)
-
-        results[idx] = t
 
 
 def solve(raw):
@@ -370,13 +362,13 @@ def test():
     #raw = '100030009020640080003200740200000000014000000000062800007000300080450020000000001'
     #raw = '020000000000600003074080000000003002080040010000500000000010780500009000000000040'
     #raw = '.....6....59.....82....8....45........3........6..3.54...325..6..................'
-    raw = '100400009056009000000010060060000800500004090900005010070000200600001050000300000'
-    print solve(raw)
+    raw = '100050000007009030009007540004003070060000000090800000000790020000002403002000000'
+    solve(raw)
 
 
 def bench():
     import timeit
-    count = 50
+    count = 10
     val = timeit.timeit('test()', setup='from __main__ import test', number=count)
     print val, val / count
 
@@ -384,6 +376,7 @@ def bench():
 # Entry point
 if __name__ == '__main__':
     #bench()
+    #verify()
     #test()
     import sys
     print dump(solve(sys.argv[1]))
