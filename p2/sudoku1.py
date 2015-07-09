@@ -36,12 +36,13 @@ def same_block(i, j):
 
 
 def r(a):
-    global tickle
-    tickle += 1
+    # global tickle
+    # tickle += 1
     i = a.find('0')
     if i == -1:
         # print("number of recursive calls: " + str(tickle))
-        sys.exit(a)
+        print(a)
+        sys.exit(0)
 
     excluded_numbers = set()
     for j in range(81):
@@ -56,7 +57,7 @@ def r(a):
 
 
 if __name__ == '__main__':
-    tickle = 0
+    # tickle = 0
     if len(sys.argv) == 2 and len(sys.argv[1]) == 81:
         r(sys.argv[1])
     else:
